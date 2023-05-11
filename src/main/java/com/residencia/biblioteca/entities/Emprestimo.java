@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,10 +19,7 @@ public class Emprestimo {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column (name = "codigoemprestimo")
-	private Integer codigoEmprestimo;
-	
-	@Column (name = "matriculaaluno")
-	private Integer numeroMatriculaAluno;	
+	private Integer codigoEmprestimo;	
 	
 	@Column (name = "dataemprestimo")
 	private Date dataEmprestimo;
@@ -38,7 +34,7 @@ public class Emprestimo {
 	@JoinColumn (name = "numeromatriculaaluno" , referencedColumnName = "numeromatriculaaluno")
 	private Aluno aluno;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn (name = "codigolivro" , referencedColumnName = "codigolivro")
 	private Livro livro;
 
@@ -48,14 +44,6 @@ public class Emprestimo {
 
 	public void setCodigoEmprestimo(Integer codigoEmprestimo) {
 		this.codigoEmprestimo = codigoEmprestimo;
-	}
-
-	public Integer getNumeroMatriculaAluno() {
-		return numeroMatriculaAluno;
-	}
-
-	public void setNumeroMatriculaAluno(Integer numeroMatriculaAluno) {
-		this.numeroMatriculaAluno = numeroMatriculaAluno;
 	}	
 
 	public Date getDataEmprestimo() {
