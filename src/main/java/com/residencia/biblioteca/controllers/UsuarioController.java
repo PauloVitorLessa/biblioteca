@@ -13,56 +13,55 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.residencia.biblioteca.entities.Aluno;
-import com.residencia.biblioteca.services.AlunoService;
+import com.residencia.biblioteca.entities.Usuario;
+import com.residencia.biblioteca.services.UsuarioService;
 
 @RestController
-@RequestMapping("/alunos")
-public class AlunoController {
+@RequestMapping("/usuarios")
+public class UsuarioController {
 	
 	@Autowired
-	AlunoService alunoService;
+	UsuarioService usuarioService;
 	
 	@GetMapping	
-	public ResponseEntity<List<Aluno>>  getAllAlunos(){
-		return new ResponseEntity<>(alunoService.getAllAlunos(),
+	public ResponseEntity<List<Usuario>>  getAllUsuarios(){
+		return new ResponseEntity<>(usuarioService.getAllUsuarios(),
 				HttpStatus.OK);
 	}
 	
 	@GetMapping ("/{id}")
-	public ResponseEntity<Aluno> getAlunoById(@PathVariable Integer id) {
+	public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
 		
-		Aluno alunoResponse = alunoService.getAlunoById(id);
-		if(alunoResponse == null)
+		Usuario usuarioResponse = usuarioService.getUsuarioById(id);
+		if(usuarioResponse == null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		else
-			return new ResponseEntity<>(alunoResponse,
+			return new ResponseEntity<>(usuarioResponse,
 					HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Aluno> saveAluno(@RequestBody Aluno aluno) {
+	public ResponseEntity<Usuario> saveUsuario(@RequestBody Usuario usuario) {
 		
-		return new ResponseEntity<>(alunoService.saveAluno(aluno),
+		return new ResponseEntity<>(usuarioService.saveUsuario(usuario),
 				HttpStatus.CREATED);
 	}
 	
 	@PutMapping
-	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, Integer id) {
+	public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario, Integer id) {
 		
-		return new ResponseEntity<> (alunoService.updateAluno(aluno, id),
+		return new ResponseEntity<> (usuarioService.updateUsuario(usuario, id),
 				HttpStatus.OK);
 	}
 	
 	@DeleteMapping ("/{id}")
-	public ResponseEntity<Boolean> deleteAluno(@PathVariable Integer id) {
+	public ResponseEntity<Boolean> deleteUsuario(@PathVariable Integer id) {
 		
-		if(alunoService.delAluno(id) == false)
+		if(usuarioService.delUsuario(id) == false)
 			return new ResponseEntity<>(false,
 					HttpStatus.NOT_MODIFIED);
 		else
-			return new ResponseEntity<>(alunoService.delAluno(id),
+			return new ResponseEntity<>(usuarioService.delUsuario(id),
 					HttpStatus.OK);		
 	}
 }
