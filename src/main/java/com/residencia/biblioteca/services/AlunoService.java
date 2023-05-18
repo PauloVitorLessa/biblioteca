@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.biblioteca.dto.AlunoDTO;
 import com.residencia.biblioteca.dto.AlunoResumidoDTO;
 import com.residencia.biblioteca.dto.EmprestimoResumidoDTO;
 import com.residencia.biblioteca.entities.Aluno;
@@ -37,7 +38,12 @@ public class AlunoService {
 			EmprestimoResumidoDTO emprestimoResumidoDTO = new EmprestimoResumidoDTO();
 			emprestimoResumidoDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
 			emprestimoResumidoDTO.setDataEntrega(emprestimo.getDataEntrega());
-			emprestimoResumidoDTO.setNomeLivro(emprestimo.getLivro().getNomeLivro());
+			
+			if(null == emprestimo.getLivro())
+				emprestimoResumidoDTO.setNomeLivro(null);
+			else
+				emprestimoResumidoDTO.setNomeLivro(emprestimo.getLivro().getNomeLivro());
+			
 			listaEmprestimosResDTO.add(emprestimoResumidoDTO);
 		}
 		AlunoResumidoDTO alunoResumidoDTO = new AlunoResumidoDTO();
@@ -51,6 +57,22 @@ public class AlunoService {
 	public Aluno saveAluno(Aluno aluno) {
 		
 		return alunoRepository.save(aluno);
+	}
+	public AlunoDTO saveAlunoDTO(AlunoDTO alunoDTO) {
+		
+		Aluno aluno = new Aluno();
+		aluno.setNome(alunoDTO.getNome());
+		aluno.setDataNascimento(alunoDTO.getDataNascimento());
+		aluno.setCpf(alunoDTO.getCpf());
+		aluno.setLogradouro(alunoDTO.getLogradouro());
+		aluno.setNumeroLogradouro(alunoDTO.getNumeroLogradouro());
+		aluno.setComplemento(alunoDTO.getComplemento());
+		aluno.setBairro(alunoDTO.getBairro());
+		aluno.setCidade(alunoDTO.getCidade());
+		Aluno alunoResponse = alunoRepository.save(aluno);
+		AlunoDTO alunoDTOResponse = new AlunoDTO(alunoResponse);
+		return alunoDTOResponse;
+		
 	}
 	
 	public Aluno updateAluno(Aluno aluno, Integer id) {
