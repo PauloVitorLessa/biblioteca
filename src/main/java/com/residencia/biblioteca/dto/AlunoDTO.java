@@ -1,8 +1,7 @@
 package com.residencia.biblioteca.dto;
 
 import java.util.Date;
-
-import com.residencia.biblioteca.entities.Aluno;
+import java.util.List;
 
 public class AlunoDTO {
 	private Integer numeroMatriculaAluno;
@@ -14,22 +13,34 @@ public class AlunoDTO {
 	private String complemento;
 	private String bairro;
 	private String cidade;
+	private List<EmprestimoDTO> emprestimos;
 	
 	public AlunoDTO() {
 		super();
 	}
 
-	public AlunoDTO(Aluno aluno) {
+	public AlunoDTO(Integer numeroMatriculaAluno, String nome, Date dataNascimento, String cpf, String logradouro,
+			String numeroLogradouro, String complemento, String bairro, String cidade,
+			List<EmprestimoDTO> emprestimos) {
 		super();
-		this.numeroMatriculaAluno = aluno.getNumeroMatriculaAluno();
-		this.nome = aluno.getNome();
-		this.dataNascimento = aluno.getDataNascimento();
-		this.cpf = aluno.getCpf();
-		this.logradouro = aluno.getLogradouro();
-		this.numeroLogradouro = aluno.getNumeroLogradouro();
-		this.complemento = aluno.getComplemento();
-		this.bairro = aluno.getBairro();
-		this.cidade = aluno.getCidade();
+		this.numeroMatriculaAluno = numeroMatriculaAluno;
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.cpf = cpf;
+		this.logradouro = logradouro;
+		this.numeroLogradouro = numeroLogradouro;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.emprestimos = emprestimos;
+	}
+
+	public Integer getNumeroMatriculaAluno() {
+		return numeroMatriculaAluno;
+	}
+
+	public void setNumeroMatriculaAluno(Integer numeroMatriculaAluno) {
+		this.numeroMatriculaAluno = numeroMatriculaAluno;
 	}
 
 	public String getNome() {
@@ -96,12 +107,11 @@ public class AlunoDTO {
 		this.cidade = cidade;
 	}
 
-	public Integer getNumeroMatriculaAluno() {
-		return numeroMatriculaAluno;
+	public List<EmprestimoDTO> getEmprestimos() {
+		return emprestimos;
 	}
 
-	public void setNumeroMatriculaAluno(Integer numeroMatriculaAluno) {
-		this.numeroMatriculaAluno = numeroMatriculaAluno;
-	}
-	
+	public void setEmprestimos(List<EmprestimoDTO> emprestimos) {
+		this.emprestimos = emprestimos;
+	}	
 }

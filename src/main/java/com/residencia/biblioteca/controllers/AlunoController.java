@@ -67,9 +67,9 @@ public class AlunoController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Aluno> updateAluno(@RequestBody Aluno aluno, Integer id) {
+	public ResponseEntity<AlunoDTO> updateAluno(@RequestBody AlunoDTO alunoDTO) {
 		
-		return new ResponseEntity<> (alunoService.updateAluno(aluno, id),
+		return new ResponseEntity<> (alunoService.updateAluno(alunoDTO),
 				HttpStatus.OK);
 	}
 	

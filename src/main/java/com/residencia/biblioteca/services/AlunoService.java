@@ -3,6 +3,7 @@ package com.residencia.biblioteca.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class AlunoService {
 	
 	@Autowired
 	AlunoRepository alunoRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public List <Aluno>getAllAlunos() {
 		
@@ -60,24 +64,21 @@ public class AlunoService {
 	}
 	public AlunoDTO saveAlunoDTO(AlunoDTO alunoDTO) {
 		
-		Aluno aluno = new Aluno();
-		aluno.setNome(alunoDTO.getNome());
-		aluno.setDataNascimento(alunoDTO.getDataNascimento());
-		aluno.setCpf(alunoDTO.getCpf());
-		aluno.setLogradouro(alunoDTO.getLogradouro());
-		aluno.setNumeroLogradouro(alunoDTO.getNumeroLogradouro());
-		aluno.setComplemento(alunoDTO.getComplemento());
-		aluno.setBairro(alunoDTO.getBairro());
-		aluno.setCidade(alunoDTO.getCidade());
-		Aluno alunoResponse = alunoRepository.save(aluno);
-		AlunoDTO alunoDTOResponse = new AlunoDTO(alunoResponse);
-		return alunoDTOResponse;
-		
+		Aluno aluno = modelMapper.map(alunoDTO, Aluno.class);
+		AlunoDTO alunoDtoResponse = modelMapper.map(alunoRepository.save(aluno), AlunoDTO.class);
+		return alunoDtoResponse;		
 	}
 	
-	public Aluno updateAluno(Aluno aluno, Integer id) {
+	public AlunoDTO updateAluno(AlunoDTO alunoDTO){
 		
-		return alunoRepository.save(aluno);
+		Aluno aluno = modelMapper.map(alunoDTO, Aluno.class);
+		if(alunoRepository.findById(aluno.getNumeroMatriculaAluno()).orElse(null) == null) {
+			return null;
+		}
+		else {
+			AlunoDTO saveResponse = modelMapper.map(alunoRepository.save(aluno), AlunoDTO.class);
+			return saveResponse;
+		}		
 	}
 	
 	public void deleteAluno(Integer id) {
