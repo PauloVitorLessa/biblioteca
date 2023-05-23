@@ -1,13 +1,17 @@
 package com.residencia.biblioteca.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.residencia.biblioteca.dto.EditoraResumidaDTO;
 import com.residencia.biblioteca.dto.LivroResumidoDTO;
+import com.residencia.biblioteca.dto.ReceitaWsDTO;
 import com.residencia.biblioteca.entities.Editora;
 import com.residencia.biblioteca.entities.Livro;
 import com.residencia.biblioteca.repositories.EditoraRepository;
@@ -53,6 +57,9 @@ public class EditoraService {
 	
 	public Editora saveEditora(Editora editora) {
 		
+		ReceitaWsDTO recDto = consultaApiReceitaWs(editora.getCnpj());
+		System.out.println("ReceitaWdTTO: " + recDto);
+		
 		return editoraRepository.save(editora);
 	}
 	
@@ -73,6 +80,18 @@ public class EditoraService {
 			return true;
 		else
 			return false;
+	}
+	
+	private ReceitaWsDTO consultaApiReceitaWs(String cnpj) {
+		
+		RestTemplate restTemplate = new RestTemplate();
+		String uri = "https://receitaws.com.br/v1/cnpj/{cnpj}";
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("cnpj", cnpj);
+		
+		ReceitaWsDTO recDto = restTemplate.getForObject(uri, ReceitaWsDTO.class, params);		
+		return recDto;
 	}
 
 }

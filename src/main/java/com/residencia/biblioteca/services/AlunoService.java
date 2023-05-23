@@ -18,6 +18,9 @@ import com.residencia.biblioteca.repositories.AlunoRepository;
 public class AlunoService {
 	
 	@Autowired
+	EmailService emailService;
+	
+	@Autowired
 	AlunoRepository alunoRepository;
 	
 	@Autowired
@@ -66,7 +69,11 @@ public class AlunoService {
 		
 		Aluno aluno = modelMapper.map(alunoDTO, Aluno.class);
 		AlunoDTO alunoDtoResponse = modelMapper.map(alunoRepository.save(aluno), AlunoDTO.class);
-		return alunoDtoResponse;		
+		emailService.enviarEmail("paulo.vitor.lessa@gmail.com", "novo aluno cadastrado", alunoDTO.toString());
+		return alunoDtoResponse;
+		
+		
+		
 	}
 	
 	public AlunoDTO updateAluno(AlunoDTO alunoDTO){

@@ -36,6 +36,9 @@ public class Editora {
 	@Column (name = "imagem_url")
 	private String imagemUrl;
 	
+	@Column (name = "cnpj")
+	private String cnpj;
+	
 	//@JsonManagedReference (value = "editora-back")
 	@OneToMany (mappedBy = "editora")
 	private List<Livro> livros;
@@ -86,6 +89,14 @@ public class Editora {
 
 	public void setLivros(List<Livro> livros) {
 		this.livros = livros;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	
