@@ -12,6 +12,7 @@ import com.residencia.biblioteca.dto.AlunoResumidoDTO;
 import com.residencia.biblioteca.dto.EmprestimoResumidoDTO;
 import com.residencia.biblioteca.entities.Aluno;
 import com.residencia.biblioteca.entities.Emprestimo;
+import com.residencia.biblioteca.exception.NoSuchElementException;
 import com.residencia.biblioteca.repositories.AlunoRepository;
 
 @Service
@@ -33,7 +34,7 @@ public class AlunoService {
 	
 	public Aluno getAlunoById(Integer id) {
 		
-		return alunoRepository.findById(id).orElse(null);	
+		return alunoRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Aluno",id));
 	}
 	public AlunoResumidoDTO getAlunoResumidoDTOById(Integer id) {
 		
@@ -70,10 +71,7 @@ public class AlunoService {
 		Aluno aluno = modelMapper.map(alunoDTO, Aluno.class);
 		AlunoDTO alunoDtoResponse = modelMapper.map(alunoRepository.save(aluno), AlunoDTO.class);
 		emailService.enviarEmail("paulo.vitor.lessa@gmail.com", "novo aluno cadastrado", alunoDTO.toString());
-		return alunoDtoResponse;
-		
-		
-		
+		return alunoDtoResponse;		
 	}
 	
 	public AlunoDTO updateAluno(AlunoDTO alunoDTO){
